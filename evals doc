@@ -1,0 +1,60 @@
+---
+title: Gemini 2.0 Flash Documentation for Evaluation with Promptfoo
+sidebar_position: [YOUR_DESIRED_POSITION]
+---
+
+# Gemini 2.0 Flash Documentation for Evaluation with Promptfoo
+
+This document provides a detailed explanation of Google's `google:gemini-2.0-flash` model, focusing on its capabilities, limitations, intended use cases, and input/output formats specifically for evaluation using the promptfoo testing framework.
+
+## Understanding Gemini 2.0 Flash for Promptfoo Evaluation
+
+[**Information derived from available Google documentation and general knowledge about fast models.**]
+
+* **Model Identifier in Promptfoo:** `google:gemini-2.0-flash` (This is the identifier you will use in your `promptfoo.yaml` configuration under the `model` field when using the `google` provider).
+* **Capabilities (Relevant for Promptfoo):**
+    * **Speed-Optimized Testing:** Ideal for running large numbers of quick evaluations due to its low latency. This allows for faster iteration and benchmarking in promptfoo.
+    * **Efficient Cost Analysis:** Its lower cost per token makes it suitable for extensive testing without incurring high expenses, especially when comparing against more expensive models in promptfoo.
+    * **Benchmarking Short-Form Performance:** Excellent for evaluating performance on tasks where concise outputs are expected, allowing you to create targeted promptfoo tests for summarization, short answers, etc.
+    * **Basic Conversational Flow Evaluation:** You can use promptfoo to test simple multi-turn conversations to assess its responsiveness and coherence within a limited context window.
+* **Limitations (Considerations for Promptfoo Test Design):**
+    * **Complex Reasoning Challenges:** Avoid designing promptfoo tests that heavily rely on deep reasoning or multi-step problem-solving, as `gemini-2.0-flash` might underperform compared to larger models.
+    * **Context Window Sensitivity:** Be mindful of its potentially shorter context window when creating multi-turn promptfoo tests or providing long input texts. Keep prompts concise and focused.
+    * **Output Quality for Complex Tasks:** For promptfoo tests evaluating creative writing or nuanced generation, the output from `gemini-2.0-flash` might not be as high quality as larger models. Focus your evaluations on its intended strengths.
+* **Intended Use Cases (Guiding Your Promptfoo Scenarios):**
+    * **Chatbot Responsiveness Testing:** Evaluate its latency and basic conversational abilities in promptfoo.
+    * **Short Content Generation Benchmarking:** Compare its speed and quality against other fast models for tasks like tweet generation or short summaries using promptfoo.
+    * **Quick Question Answering Evaluation:** Assess its accuracy and speed in answering direct questions within promptfoo.
+    * **Cost-Aware Model Comparison:** Use promptfoo to compare its performance against more expensive models while factoring in the cost per token.
+* **Input/Output Format Considerations for Promptfoo:**
+    * **Input (Prompt Design in promptfoo):** Design your prompts in the `prompts` section of your `promptfoo.yaml` file as text. Be aware of potential token limits as specified in the official Gemini API documentation. If multi-modal inputs are supported by the API and promptfoo's Google provider, you'll need to structure your prompts accordingly (refer to both promptfoo and Gemini API documentation for specifics).
+    * **Output (Assertion Design in promptfoo):** When defining assertions in the `tests` section of your `promptfoo.yaml`, expect text-based outputs. You can use various assertion types (e.g., `contains`, `equals`, `regex`, `length_less_than`) to evaluate the generated text based on your expected outcomes for short and concise responses.
+    * **Special Tokens/Formatting (Prompt Engineering for promptfoo):** If the Gemini API documentation specifies any special tokens or formatting requirements for influencing the model's behavior, you'll need to incorporate these directly into your prompts within promptfoo. Ensure that your prompt engineering aligns with the model's expected input format.
+
+**Example `promptfoo.yaml` Configuration:**
+
+```yaml
+providers:
+  - name: gemini-flash
+    type: google
+    model: google:gemini-2.0-flash
+    api_key: $GOOGLE_API_KEY
+
+prompts:
+  - "Summarize the following in one sentence: [ARTICLE_TEXT]"
+  - "Answer this question briefly: [QUESTION]"
+  - "Generate a short tweet about: [TOPIC]"
+
+tests:
+  - prompt: "Summarize the following in one sentence: The quick brown fox jumps over the lazy dog."
+    assert:
+      - type: contains
+        value: fox jumps over dog
+  - prompt: "Answer this question briefly: What is the capital of France?"
+    assert:
+      - type: equals
+        value: Paris
+  - prompt: "Generate a short tweet about: A new AI model release."
+    assert:
+      - type: length_less_than
+        value: 280
