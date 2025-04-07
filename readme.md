@@ -165,7 +165,7 @@ To interact with the Gemini APIs through promptfoo, you need to generate an API 
 
 **Generating Your API Key in Google Cloud:**
 <br>
-![API_KEYS](Screenshot (39).png)
+![API_KEYS]([Screenshot (39).png](https://github.com/prasanna-lakshmi18/gemini-2.0-Flash-eval-doc/blob/main/Screenshot%20(39).png))
 1.  **Navigate to the Google Cloud Console:** Open your web browser and go to [https://console.cloud.google.com/](https://console.cloud.google.com/).
 2.  **Select or Create a Project:** Choose the Google Cloud project where you intend to utilize the Gemini APIs. Create a new project if needed.
 3.  **Enable the Vertex AI API:**
