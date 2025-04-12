@@ -225,4 +225,4 @@ Your `GOOGLE_API_KEY` acts as a digital passport, granting access to Google's ad
     * **Google Kubernetes Engine (GKE):** Employ Kubernetes Secrets to securely store your API key and then expose it as an environment variable to your containerized promptfoo evaluation workloads.
     * **Vertex AI Workbench/Notebooks:** You can set environment variables within the notebook environment using Python's `os` module or through the Workbench's configuration interface.
 
-* **CI/CD Pipelines (e.g., GitHub Actions, GitLab CI):** Define your `GOOGLE_API_KEY` as a securely managed
+* **CI/CD Pipelines (e.g., GitHub Actions, GitLab CI):** Define your `GOOGLE_API_KEY` as an environment variable during the test execution.
