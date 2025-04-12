@@ -226,3 +226,40 @@ Your `GOOGLE_API_KEY` acts as a digital passport, granting access to Google's ad
     * **Vertex AI Workbench/Notebooks:** You can set environment variables within the notebook environment using Python's `os` module or through the Workbench's configuration interface.
 
 * **CI/CD Pipelines (e.g., GitHub Actions, GitLab CI):** Define your `GOOGLE_API_KEY` as an environment variable during the test execution.
+* Sample
+  ```yaml
+  name: Gemini 2.0 Flash Promptfoo Tests
+
+   on:
+     push:
+       branches: [ "main" ]
+     pull_request:
+       branches: [ "main" ]
+
+  jobs:
+     test:
+       runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x' # Or your preferred Node.js version
+
+      - name: Install Promptfoo
+        run: npm install -g promptfoo
+
+      - name: Run Promptfoo tests
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }} # Access the secret
+        run: promptfoo eval
+
+      - name: Upload Promptfoo report (optional)
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: promptfoo-report
+          path: promptfoo_output.json # Assuming Promptfoo outputs a JSON report
+```
